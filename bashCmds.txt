@@ -1,0 +1,245 @@
+
+# How many lines contain tab characters in
+# the file named "file-with-tabs.txt" in the
+# current directory.
+
+bash(0)> < file-with-tabs.txt tr -dc \\t | wc -c
+
+# There is a file named "access.log" in the
+# current working directory. Print all lines
+# in this file that contains the string "GET".
+# 
+bash(0)> grep 'GET' access.log
+
+
+
+# Print the last 5 lines of "access.log".
+bash(0)> tail -5 access.log
+
+# There is a file named "access.log" in the
+# current directory. Print the contents.
+
+
+bash(1)> cat access.log
+
+
+# Print all files in the current directory,
+# one per line (not the full path, just the filename)
+# that contain the string "500".
+# 
+
+bash(0)> grep 500 * -lR
+
+# Print the relative file paths, one path
+# per line for all filenames that start with
+# "access.log" in the current directory.
+
+bash(0)> find . -name "access.log*"
+
+
+# Print all matching lines (without the filename or the file path) in all files under the current directory that start with "access.log" that contain the string "500". Note that there are no
+# files named "access.log" in the current directory,
+# you will need to search recursively.
+
+find . -name "access.log*" | xargs grep -h 500 
+
+
+extract_ip_addresses/
+
+# Extract all IP addreses from files that
+# that start with "access.log" printing one
+# IP address per line.
+# 
+
+Solution:
+find . -name "access.log*" | xargs grep -Eo '^[^ ]+'
+
+delete_files/
+
+# Delete all of the files in this challenge
+# directory including all subdirectories and
+# their contents.
+# 
+
+Solution:
+find . -delete
+
+count_files/
+
+# Count the number of files in the current
+# working directory. Print the number of
+# files as a single integer.
+# 
+
+Solution:
+ls | wc -l
+
+simple_sort/
+
+# Print the contents of access.log
+# sorted.
+# 
+
+Solution:
+sort access.log
+
+count_string_in_line/
+
+# Print the number of lines
+# in access.log that contain the string
+# "GET".
+# 
+
+Solution:
+grep GET access.log | wc -l
+
+split_on_a_char/
+
+# The file split-me.txt contains a list of
+# numbers separated by a ';' character.
+# Split the numbers on the ';' character,
+# one number per line.
+# 
+
+Solution:
+cat split-me.txt | sed s/\;/\\n/g
+
+print_number_sequence/
+
+# Print the numbers 1 to 100 separated
+# by spaces.
+# 
+
+Solution:
+echo {1..100}
+
+# There are some files in this directory that
+# start with a dash in the filename.
+# Remove those files.
+# 
+bash(0)> find . -name '-*' -delete
+
+remove_files_with_extension/
+
+# There are files in this challenge with
+# different file extensions.
+# Remove all files with the .doc extension
+# recursively in the current working directory.
+#
+
+Solution:
+bash(0)> find . -name "*.doc" -delete
+
+# There are files in this challenge with
+# different file extensions.
+# Remove all files without the .txt and .exe extensions
+# recursively in the current working directory.
+
+bash(0)> find . ! -name "*.exe" ! -name "*.txt" -type f -delete
+
+replace_text_in_files/
+
+# This challenge has text files that contain
+# the phrase "challenges are difficult". Delete
+# this phrase recursively from all text files.
+# 
+
+Solution:
+find . -name "*.txt" -exec sed -i 's/challenges are difficult//g' {} +
+
+sum_all_numbers/
+
+# The file sum-me.txt have a list of numbers,
+# one per line. Print the sum of these numbers.
+#
+
+Solution:
+cat sum-me.txt | xargs | sed -e 's/\ /+/g' | bc
+
+just_the_files/
+
+# Print all files in the current directory
+# recursively without the leading directory path.
+# 
+
+Solution:
+find . -type f -printf "%f\n"
+
+remove_extensions_from_files/
+
+# Remove the extension from all files in
+# the current directory recursively.
+# 
+
+
+find . -type f -exec bash -c 'mv "$1" "${1%.*}"' - '{}' \  
+
+replace_spaces_in_filenames/
+
+# The files in this challenge contain spaces.
+# List all of the files in the current
+# directory but replace all spaces with a '.'
+# character.
+# 
+
+Solution:
+find . -type f -printf "%f\n" | xargs -0 -I {} echo {} | tr ' ' '.'
+
+files_starting_with_a_number/
+
+# There are a mix of files in this directory
+# that start with letters and numbers. Print
+# the filenames (just the filenames) of all
+# files that start with a number recursively
+# in the current directory.
+# 
+
+Solution:
+find . -name '[0-9]*' -type f -printf "%f\n"
+
+print_nth_line/
+
+# Print the 25th line of the file faces.txt
+# 
+
+Solution:
+sed '25q;d' faces.txt
+
+remove_duplicate_lines/
+
+# Print the file faces.txt, but only print the first instance of each
+# duplicate line, even if the duplicates don't appear next to each other.
+# 
+
+Solution:
+awk '!seen[$0]++' faces.txt
+
+corrupted_text/
+
+# You have a new challenge!
+# The following excerpt from War and Peace is saved to
+# the file 'war_and_peace.txt':
+# 
+# She is betraying us! Russia alone must save Europe.
+# Our gracious sovereign recognizes his high vocation
+# and will be true to it. That is the one thing I have
+# faith in! Our good and wonderful sovereign has to
+# perform the noblest role on earth, and he is so virtuous
+# and noble that God will not forsake him. He will fulfill
+# his vocation and crush the hydra of revolution, which
+# has become more terri	
+le than ever in the person of this
+# murderer and villain!
+# 
+# The file however has been corrupted, there are random '!'
+# marks inserted throughout.  Print the original text.
+# 
+
+Solution: (Found this on hackernews)
+< war_and_peace.txt tr -s '!' | sed 's/!\([a-z]\)/\1/g' | sed 's/!\( [a-z]\)/\1/g' | sed 's/!\.!/./g' | sed 's/ !/ /g' 
+
+
+# access.log.1 and access.log.2 are http server logs. Print the IP
+# addresses common to both files, one per line.
+
+ comm -12 <(grep -oP '\d+\.\d+\.\d+\.\d+' access.log.1|sort -u) <(grep -oP '\d+\.\d+\.\d+\.\d+' access.log.2|sort -u)
