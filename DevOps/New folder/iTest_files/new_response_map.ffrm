@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ResponseMap version="4.2.2.68987">
+    <sampleDictionary>
+        <item name="sample1">
+            <responseBody>Parent1 Child1
+        Child2
+        Child3
+Parent2 Child1
+Parent3 Child1
+        Child2</responseBody>
+        </item>
+    </sampleDictionary>
+    <mapperProperties>
+        <item type="com.fnfr.svt.mapping.table.TabularMapperProperties">
+            <tabularMaps>
+                <item name="table1">
+                    <footerStructure>End</footerStructure>
+                    <columnBoundaries>Positional</columnBoundaries>
+                    <columns>
+                        <item name="col1">
+                            <width>7</width>
+                        </item>
+                        <item name="col2">
+                            <width>0</width>
+                        </item>
+                    </columns>
+                </item>
+            </tabularMaps>
+        </item>
+    </mapperProperties>
+    <aliases>
+        <item name="query1">
+            <queryFormatString>mapped/Tabular/table1/table/row[(col1=&apos;{0}&apos;) or (col1=&quot;&quot; and (preceding-sibling::row/col1[.!=&quot;&quot;])[last()]=&apos;{0}&apos;)]//col2[.!=&quot;&quot;]</queryFormatString>
+            <arguments>
+                <item name="col1">
+                    <defaultvalue>a1</defaultvalue>
+                    <valuesQuery>mapped/Tabular/table1/table/row/col1</valuesQuery>
+                    <interpretAs>SampleValues</interpretAs>
+                </item>
+            </arguments>
+        </item>
+    </aliases>
+</ResponseMap>

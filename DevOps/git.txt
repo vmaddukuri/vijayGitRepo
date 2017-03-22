@@ -1,0 +1,28 @@
+$ git config --global user.name "Billy Everyteen"
+$ git config --global user.email "billyeveryteen@example.com"
+git init .
+git add *
+git commit -m "Web depolyment"
+
+upstream containerapp {
+	server 10.0.12.118:8081;
+	server 10.0.12.118:8082;
+}
+
+server {
+	listen *:80;
+	server_name 10.0.12.118;
+	index index.html index.htm index.php;
+
+	access_log /var/log/ngnix/localweb.log;
+	error_log /var/log/ngnix/localerr.log;
+
+
+	location / {
+		proxy_pass http://containerapp;
+	}
+}
+
+
+
+

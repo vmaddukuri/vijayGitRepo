@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<testCase version="4.2.2.68987">
+    <procedures>
+        <item name="main">
+            <steps>
+                <item guid="cb1aaa30-29ab-407d-8982-73fe09bb0316" action="readFile" useResponseMapLibraryApplicability="false" useAutoMap="false">
+                    <command>
+                        <body>file:/C:/Users/Paxterra/Desktop/New%20Text%20Document%20(5).txt</body>
+                    </command>
+                    <postProcessing>
+                        <analysisRules>
+                            <item>
+                                <extractorInfo extractorType="query">
+                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                        <query>concat(ping(&quot;10.62.141.255&quot;), &quot;&quot;) </query>
+                                    </extractorProperties>
+                                </extractorInfo>
+                                <processorInfo ruleType="store">
+                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                        <storageLocation>var1</storageLocation>
+                                    </ruleProperties>
+                                </processorInfo>
+                            </item>
+                        </analysisRules>
+                    </postProcessing>
+                    <applicationProperties type="com.fnfr.svt.execution.builtin.exec.ReadFilePropertyGroup"/>
+                    <responseMap>project://my_project/response_maps/ping_10_62_141_159.ffrm</responseMap>
+                    <useResponseMapLibraryFromSession>false</useResponseMapLibraryFromSession>
+                    <useFieldsInCommand>false</useFieldsInCommand>
+                </item>
+                <item guid="5f29b4e0-7ff7-4a50-b198-e2980eb8eaa3" action="eval">
+                    <command>
+                        <body>puts $var1</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                    <useFieldsInCommand>false</useFieldsInCommand>
+                </item>
+                <item guid="e41034d8-10f4-44ae-8c22-40523c190bff" action="if">
+                    <command>
+                        <body>$var1==&quot;&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="1e5957c7-d386-4667-bf7b-4af7a2aed047" action="then">
+                            <nestedSteps>
+                                <item guid="a96871d6-b2b8-4df0-8506-c52265146d1a" action="eval">
+                                    <command>
+                                        <body>concat $var1 10.10.10.10</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                    <useFieldsInCommand>false</useFieldsInCommand>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                            <useFieldsInCommand>false</useFieldsInCommand>
+                        </item>
+                        <item guid="3454e882-5de3-422c-9291-a80f46381b68" action="else">
+                            <nestedSteps>
+                                <item guid="c2a0caef-e604-493a-989b-dcf6ad570dfa" action="eval">
+                                    <command>
+                                        <body>puts $var1</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                    <useFieldsInCommand>false</useFieldsInCommand>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                            <useFieldsInCommand>false</useFieldsInCommand>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                    <useFieldsInCommand>false</useFieldsInCommand>
+                </item>
+            </steps>
+        </item>
+    </procedures>
+    <eventHandlers>
+        <item name="OnResponseMappingIssue">
+            <item actionId="PassTest">
+                <actionProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+            </item>
+        </item>
+        <item name="OnMappingFail">
+            <item actionId="PassTest">
+                <actionProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+            </item>
+        </item>
+    </eventHandlers>
+</testCase>
