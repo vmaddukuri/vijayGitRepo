@@ -1,0 +1,26 @@
+operators
+==========
+arithmetic operator (+, -, *, /, %, **)
+
+
+relational (>, >=, <, <=, ==, !=)
+
+logical (and, or, not)
+
+bitwise (&, |, ^, ~, >>, <<)
+
+if else conditional operator (? :)
+
+# syntax :-
+variable  = true-part-expression if test-condition else false-part-expression
+
+membership test operator (an object is an member of an object)
+========================
+in, not in
+
+
+
+
+
+
+
