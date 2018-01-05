@@ -1,0 +1,5 @@
+2017-09-29 09:48:11,345:DEBUG:root:A debug note
+2017-09-29 09:48:11,345:INFO:root:Confirmation msg
+2017-09-29 09:48:11,345:WARNING:root:warning msg
+2017-09-29 09:48:11,361:ERROR:root:Error note
+2017-09-29 09:48:11,361:CRITICAL:root:panic error
