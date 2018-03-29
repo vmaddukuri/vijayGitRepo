@@ -22,7 +22,7 @@ void runStages(String tag) {
 					sh '''
 						dir=$(pwd)
 						cd $dir/enterprise-cloud-connector/virtustream-vro-plugin
-						sed -i s/172.17.61.100/10.100.26.80/g pom.xml			
+						sed -i s/172.17.61.100:8281/10.100.26.80:443/g pom.xml			
 					'''						
 				}
 
