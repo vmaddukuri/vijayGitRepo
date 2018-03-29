@@ -1,4 +1,4 @@
-import static defaults.values.*
+import static *
 
 void runStages(String tag) {
     
