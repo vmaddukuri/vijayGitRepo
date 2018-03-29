@@ -1,4 +1,4 @@
-import static defaults.*
+#!/usr/bin/env groovy
 
 void runStages(String tag) {
     
