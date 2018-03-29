@@ -1,9 +1,47 @@
-#!/usr/bin/env groovy
+import static defaults.values.*
 
 void runStages(String tag) {
     
     docker.image(tag).inside("--privileged=true --user root") {
 	
+		stage('Git Clone') {
+
+			sh 'git config --global http.proxy https://10.131.236.9:3128/'
+			
+			sh 'rm -fR enterprise-cloud-connector'
+			
+			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'CREDENTIALS_ID_GIT',
+							  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+			
+				sh '''git clone http://$USERNAME:$PASSWORD@github.com/virtustream/enterprise-cloud-connector.git'''
+			
+			}
+
+		}
+		
+		stage('Copy the POM file'){
+
+			sh '''
+				dir=$(pwd)
+				cp /opt/ecc/enterprise-cloud-connector/virtustream-vro-plugin/pom.xml $dir/enterprise-cloud-connector/virtustream-vro-plugin/pom.xml
+			'''						
+		}
+
+		stage('Generate Maven Build'){
+
+			sh '''
+			dir=$(pwd)
+			mvn -f $dir/enterprise-cloud-connector/virtustream-vro-plugin/pom.xml clean install exec:java -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -DskipTests=true -Dbuild.number=1
+			'''
+		}
+		
+		stage('Generate SonarQube Report'){
+
+			sh '''
+			dir=$(pwd)
+			mvn -f $dir/enterprise-cloud-connector/virtustream-vro-plugin/pom.xml -e -B sonar:sonar -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true -DskipTests=true -Dbuild.number=1 -DproxyHost=10.131.236.9 -DproxyPort=3128 -DproxySet=true -Dsonar.analysis.mode=preview -Dsonar.issuesReport.html.enable=true -Dsonar.host.url=http://10.100.26.124:9000/sonar
+			'''
+		}
 		
 		stage('Generate Artifactory') {
 		
