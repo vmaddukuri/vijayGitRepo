@@ -76,7 +76,7 @@ node{
 	//checkout scm
 
 	String imageTag
-	imageTag = "vijaymaddukuri/maven:latest"
+	imageTag = ""
 
 	runStages(imageTag)
   //updated to check
