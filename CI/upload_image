@@ -1,28 +1,20 @@
-pipeline {
-	stages {
-		stage('Create an Artifactory server instance'){	
-		// Create an Artifactory server instance
-		def server = Artifactory.server 'artifact'
-		}
-		
-		Stage('Create an Artifactory Docker instance'){
-		// Create an Artifactory Docker instance. The instance stores the Artifactory credentials and the Docker daemon host address
-		def rtDocker = Artifactory.docker server: server
-		}
-		Stage('Attach custom properties'){
-		// Attach custom properties to the published artifacts:
-		rtDocker.addProperty("project-name", "veche").addProperty("status", "stable")
-		}
-		
-		Stage('Push a docker image'){
-		// Push a docker image to Artifactory
-	  
-		def buildInfo = rtDocker.push 'https://hub.docker.com/r/sylus2207/postgres', 'http://10.100.26.124:8081/artifactory/generic-local'
-	 
-		}
-		Stage('Publish the build-info to Artifactory'){
-		// Publish the build-info to Artifactory:
-		server.publishBuildInfo buildInfo
-		}
-	}
+node{
+     
+	// Create an Artifactory server instance
+    def server = Artifactory.server 'artifact'
+ 
+
+    // Create an Artifactory Docker instance. The instance stores the Artifactory credentials and the Docker daemon host address
+    def rtDocker = Artifactory.docker server: server
+  
+    // Attach custom properties to the published artifacts:
+    rtDocker.addProperty("project-name", "veche").addProperty("status", "stable")
+ 
+    // Push a docker image to Artifactory
+  
+    def buildInfo = rtDocker.push 'https://hub.docker.com/r/sylus2207/postgres', 'http://10.100.26.124:8081/artifactory/generic-local'
+ 
+    // Publish the build-info to Artifactory:
+    server.publishBuildInfo buildInfo
+	
 }
