@@ -1,3 +1,4 @@
+node{
 	// Create an Artifactory server instance
     def server = Artifactory.server 'artifact'
  
@@ -14,3 +15,5 @@
  
     // Publish the build-info to Artifactory:
     server.publishBuildInfo buildInfo
+	
+}
